@@ -2,11 +2,11 @@
 const User = require('../model/user')
 
 
-const create = async (name, email) => {
-    const newUser = User.create({ name, email })
+const createUserRepository = async (name, email) => {
+    const newUser = await User.create({ name, email })
     return newUser
 }
 
 module.exports = {
-    create
+    createUserRepository
 }
