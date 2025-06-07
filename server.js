@@ -1,7 +1,7 @@
 const app = require('./src/app'); // Importar la app de Express ya configurada
 const { connectMongoDB } = require('./src/config/mongoConnect')
 const dotenv = require('dotenv');
-const bunyan = require('bunyan')
+const bunyan = require('bunyan');
 
 
 dotenv.config();
