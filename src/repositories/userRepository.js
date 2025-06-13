@@ -7,6 +7,17 @@ const createUserRepository = async (name, email) => {
     return newUser
 }
 
+const updateUserRepository = async (id, data) => {
+    return await User.findByIdAndUpdate( id , data, { new: true})
+}
+
+const deleteUserRepository = async (id) => {
+    return await User.findByIdAndDelete(id)
+}
+
 module.exports = {
-    createUserRepository
+    createUserRepository,
+    updateUserRepository,
+    deleteUserRepository
+
 }

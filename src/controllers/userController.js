@@ -1,4 +1,4 @@
-const { createUserService } = require('../services/userService')
+const { createUserService, getUsersService, updateUserService, deleteUserService } = require('../services/userService')
 const logger = require('../config/logger')
 
 const createUser = async (req, res) => {
@@ -13,7 +13,46 @@ const createUser = async (req, res) => {
     }
 }
 
+const getUsers = async (req, res) => {
+    try {
+        const users = await getUsersService();
+        logger.info(`Se obtienen ${users.length} usuarios`);
+        return res.status(200).json({ status: "success 200", data: users})
+
+    } catch (error) {
+        logger.error("Error al obtener usuarios", error)
+        return res.status(500).json({ status: "error 500", message: error.message })
+    }  
+}
+
+const updateUser = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const data = req.body
+        const updateUser = await updateUserService(id, data)
+        logger.info(`Usuario actualizado: ${updateUser._id}`)
+        return res.status(200).json({ status: "success 200", message: "Usuario actualizado", data: updateUser})
+    } catch (error) {
+        logger.error("Error al actualizar usuario", error)
+        return res.status(400).json({ status: "error 400", message: error.message})
+    }
+}
+
+const deleteUser = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const deletedUser = await deleteUserService(id)
+        logger.info(`Usuario eliminado: ${deletedUser._id}`)
+        return res.status(200).json({ status: "success 200", message: "Usuario eliminado", data: deletedUser})
+    } catch (error) {
+        logger.error("Error al eliminar usuario", error)
+        return res.status(400).json({ status: "error 400", message: error.message})
+    }
+}
 
 module.exports = {
-    createUser
+    createUser,
+    getUsers,
+    updateUser,
+    deleteUser
 }
