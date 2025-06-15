@@ -1,4 +1,4 @@
-const { createUserService, getAllUsersService, getUserByIdService, patchUserByIdService } = require('../services/userService')
+const { createUserService, getAllUsersService, getUserByIdService, patchUserByIdService, deleteUserService } = require('../services/userService')
 const logger = require('../config/logger')
 
 const createUser = async (req, res) => {
@@ -52,10 +52,23 @@ const patchUserById = async (req, res) => {
     }
 }
 
+const deleteUser = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const deletedUser = await deleteUserService(id)
+        logger.info(`Usuario eliminado: ${deletedUser._id}`)
+        return res.status(200).json({ status: "success 200", message: "Usuario eliminado", data: deletedUser})
+    } catch (error) {
+        logger.error("Error al eliminar usuario", error)
+        return res.status(400).json({ status: "error 400", message: error.message})
+    }
+}
+
 
 module.exports = {
     createUser,
     getAllUsers,
     getUserById,
-    patchUserById
+    patchUserById,
+    deleteUser
 }

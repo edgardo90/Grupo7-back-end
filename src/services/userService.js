@@ -1,5 +1,5 @@
 //Contiene la lógica de negocio (qué hay que hacer, cómo combinar los datos)
-const { createUserRepository, findAllUsersRepository, userByIdRepository, editByIdUserRepository } = require('../repositories/userRepository')
+const { createUserRepository, findAllUsersRepository, userByIdRepository, editByIdUserRepository, deleteUserRepository } = require('../repositories/userRepository')
 
 const createUserService = async (name, email) => {
     //ejempplo de como podemos enviar un error
@@ -34,10 +34,21 @@ const patchUserByIdService = async (id, name, email) => {
     return userUpdate;
 }
 
+const deleteUserService = async (id) => {
+    const deletedUser = await deleteUserRepository(id)
+    if (!deletedUser) {
+        throw new Error("Usuario no encontrado")
+    }
+    return deletedUser
+}
+
+
+
 
 module.exports = {
     createUserService,
     getAllUsersService,
     getUserByIdService,
-    patchUserByIdService
+    patchUserByIdService,
+    deleteUserService
 }
