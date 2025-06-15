@@ -30,9 +30,14 @@ const editByIdUserRepository = async (id, name, email) => {
     return userUpdate
 }
 
+const deleteUserRepository = async (id) => {
+    return await User.findByIdAndDelete(id)
+}
+
 module.exports = {
     createUserRepository,
     findAllUsersRepository,
     userByIdRepository,
-    editByIdUserRepository
+    editByIdUserRepository,
+    deleteUserRepository
 }
