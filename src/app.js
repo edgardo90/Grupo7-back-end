@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes')
+const bookRoutes = require('./routes/bookRoutes')
 
 // Inicializamos la app de Express
 const app = express();
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 
 //utilizo las rutas creadas
 app.use("/users", userRoutes)
+app.use("/books", bookRoutes)
 
 app.get('/{*any}', (req, res) => {
     res.status(404).json({status:"error 404" , message: 'Esa esa ruta no existe'});
