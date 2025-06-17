@@ -12,6 +12,10 @@ const userSchema = new Schema(
             required: [true, "el email es requerido"],
             unique: [true, "hay un usuario registrado con ese email"]
         },
+        password:{
+            type:String,
+            require:[true, "El passeword es requerido"],
+        }
     },
     {
         timestamps: true,
