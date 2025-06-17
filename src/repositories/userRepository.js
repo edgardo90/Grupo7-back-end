@@ -3,8 +3,8 @@ const User = require('../model/user')
 const { Query } = require('mongoose')
 
 
-const createUserRepository = async (name, email) => {
-    const newUser = await User.create({ name, email });
+const createUserRepository = async (name, email, password) => {
+    const newUser = await User.create({ name, email, password });
     return newUser;
 }
 
@@ -34,10 +34,16 @@ const deleteUserRepository = async (id) => {
     return await User.findByIdAndDelete(id)
 }
 
+const findByEmailUserRepository = async (email) => {
+    const findUser = await User.findOne({ email: email }).exec();
+    return findUser;
+}
+
 module.exports = {
     createUserRepository,
     findAllUsersRepository,
     userByIdRepository,
     editByIdUserRepository,
-    deleteUserRepository
+    deleteUserRepository,
+    findByEmailUserRepository
 }
