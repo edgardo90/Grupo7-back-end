@@ -26,7 +26,6 @@ const editByIdUserRepository = async (id, name, email) => {
         },
         { new: true }
     )
-    console.log(await userUpdate)
     return userUpdate
 }
 
