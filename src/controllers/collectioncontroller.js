@@ -1,19 +1,36 @@
-const Collection = require('../model/collection');
-const Book = require ('../model/book');
+const logger = require('../config/logger');
+const {
+  createCollectionService,
+  getCollectionByIdService,
+  addBookToCollectionService,
+  getAllCollectionsService
+} = require('../services/collectionService');
 
-exports.createCollection = async (req, res) => {
+const createCollection = async (req, res) => {
   try {
-    const { name, type, bookIds } = req.body;
-    const collection = new Collection({ name, type, books: bookIds });
-    await collection.save();
-    res.status(201).json(collection);
+    const { name, type } = req.body;
+    const newCollection = await createCollectionService(name, type);
+    logger.info(`Colección creada: ${newCollection._id}`);
+    res.status(201).json(newCollection);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    logger.error("Error al crear colección:", error);
+    res.status(error.name || 500).json({ message: error.message });
   }
 };
 
-exports.getCollectionsByType = async (req, res) => {
-  const { type } = req.params; 
-  const collections = await Collection.find({ type }).populate('books');
-  res.json(collections);
+const getCollectionById = async (req, res) => {
+  try {
+    const collection = await getCollectionByIdService(req.params.id);
+    res.status(200).json(collection);
+  } catch (error) {
+    logger.error("Error al obtener colección:", error);
+    res.status(error.name || 500).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  createCollection,
+  getCollectionById,
+  addBookToCollection,
+  getAllCollections
 };

@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const collectionController = require('../controllers/collectioncontroller');
+const { createCollection, getCollectionById } = require('../controllers/collectioncontroller');
 
-router.post('/', collectionController.createCollection);
-
-router.get('/:type', collectionController.getCollectionsByType);
+router.post('/', createCollection);
+router.get('/:id', getCollectionById);
 
 module.exports = router;
