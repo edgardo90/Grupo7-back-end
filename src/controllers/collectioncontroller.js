@@ -28,6 +28,30 @@ const getCollectionById = async (req, res) => {
   }
 };
 
+const getAllCollections = async (req, res) => {
+  try {
+    logger.info("Utilizando getAllCollections para traer todas las colecciones");
+    const collections = await getAllCollectionsService();
+    return res.status(200).json({ status: 'success', message: 'Mostrando todas las colecciones', data: collections })
+  } catch (error) {
+    logger.error(" Error al traer todas las colecciones", error)
+    return res.status(500).json({ status: "Error 500", message: error.message })
+  }
+}
+
+const addBookToCollection = async (req, res) => {
+  try {
+      const { collectionId, bookId } = req.params;
+      const updatedCollection = await addBookToCollectionService(collectionId, bookId)
+      logger.info(`Libro ${bookId} agregado a la colleccion ${collectionId}`)
+      return res.status(200).json({ status: 'success', message: "Libro agregado correctamente",data: updatedCollection})
+  } catch (error) {
+    logger.info(" Error al agregar libro a la coleccion")
+    return res.status(400).json({ status: "error 400", message: error.message })
+  }
+
+}
+
 module.exports = {
   createCollection,
   getCollectionById,

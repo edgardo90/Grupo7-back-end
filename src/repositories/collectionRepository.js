@@ -8,7 +8,7 @@ const createCollectionRepository = async (name, type,  books = []) => {
 const findCollectionByIdRepository = async (id) => {
   return await Collection.findById(id)
     .populate('books') // pobla los libros completos
-    .populate( 'name email'); // pobla solo el email del creador
+    /*.populate( 'name email'); // pobla solo el email del creador*/
 };
 
 const addBookToCollectionRepository = async (collectionId, bookId) => {
