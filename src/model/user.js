@@ -20,6 +20,12 @@ const userSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: 'Book'
             }
+        ],
+        collections: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Collection'
+            }
         ]
     },
     {
@@ -28,11 +34,16 @@ const userSchema = new Schema(
     }
 )
 
+//aca hago la "relacion" por referencia , para que cuando haga cualquier metodo con el metodo User trae lo que tiene por referencia "books" y "collections"
 userSchema.pre(/^find/, async function (next) {
     this.populate({
         path: 'books',
         select: '-createdAt -updatedAt'
-    })
+    });
+    this.populate({
+        path: 'collections',
+        select: '-createdAt -updatedAt'
+    });
     next()
 })
 
