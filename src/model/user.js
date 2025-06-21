@@ -20,6 +20,12 @@ const userSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: 'Book'
             }
+        ],
+        collections: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Collection'
+            }
         ]
     },
     {
@@ -32,7 +38,11 @@ userSchema.pre(/^find/, async function (next) {
     this.populate({
         path: 'books',
         select: '-createdAt -updatedAt'
-    })
+    });
+    this.populate({
+        path: 'collections',
+        select: '-createdAt -updatedAt'
+    });
     next()
 })
 
