@@ -34,6 +34,7 @@ const userSchema = new Schema(
     }
 )
 
+//aca hago la "relacion" por referencia , para que cuando haga cualquier metodo con el metodo User trae lo que tiene por referencia "books" y "collections"
 userSchema.pre(/^find/, async function (next) {
     this.populate({
         path: 'books',

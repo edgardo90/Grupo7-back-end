@@ -29,6 +29,7 @@ const collectionSchema = new Schema(
 //     next()
 // });
 
+//esto sirve para que cuando se elemine una Collection tambien lo elemine de User de se propiedad "collections"
 collectionSchema.post("findOneAndDelete", async (collection) => {
   console.log(collection);
   if (collection) {
