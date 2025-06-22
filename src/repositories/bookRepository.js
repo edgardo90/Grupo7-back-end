@@ -11,7 +11,37 @@ const findAllBooksRepository = async () => {
     return books
 }
 
+const bookByIdRepository = async (id) => {
+    const findBook = await Book.findById(id).exec();
+    return findBook
+}
+
+const editByIdBookRepository = async (id, title, author, category, genre, description, imageURL, editorial) => {
+    const bookUpdate = await Book.findByIdAndUpdate(id,
+        {
+           title, 
+           author, 
+           category, 
+           genre, 
+           description, 
+           imageURL, 
+           editorial
+        },
+        { new: true }
+    )
+    console.log(await bookUpdate)
+    return bookUpdate
+}
+
+const deleteBookByIdRepository = async (id) => {
+    return await User.findByIdAndDelete(id)
+}
+
+
 module.exports = {
     createBookRepository,
-    findAllBooksRepository
+    findAllBooksRepository,
+    bookByIdRepository,
+    editByIdBookRepository,
+    deleteBookByIdRepository
 }

@@ -1,4 +1,4 @@
-const { createBookService, getAllBooksService } = require('../services/bookService')
+const { createBookService, getAllBooksService, getBookByIdService, patchBookByIdService, deleteBookByIdService } = require('../services/bookService')
 const logger = require('../config/logger');
 
 const createBook = async (req, res) => {
@@ -26,7 +26,51 @@ const getAllBooks = async (req, res) => {
     }
 }
 
+const getBookById = async (req, res) => {
+    try {
+        const { id } = req.params
+        logger.info(`Usa getBookById para traer un libro por Id: ${id}`);
+        const book = await getBookByIdService(id);
+        return res.status(200).json({ status: 'success', message: `Mostrando libro por Id: ${id}`, data: book });
+    } catch (error) {
+
+        logger.error("Error al traer un libro por ID", error);
+        return res.status(500).json({ status: "Error 500", message: error.message });
+    }
+
+}
+
+// el patch es para editar
+const patchBookById = async (req, res) => {
+    try {
+        const { id } = req.params
+        const { title, author, category, genre, description, imageURL, editorial } = req.body;
+        const editBook = await patchBookByIdService(id, title, author, category, genre, description, imageURL, editorial)
+        logger.info(`Utilizando  patchBookById para modificar un libro por Id: ${id}`);
+        return res.status(200).json({ status: 'success', message: `Book Id: ${id}, modificado exitosamente`, data: editBook });
+    } catch (error) {
+        logger.error("Error a editar un libro por ID", error);
+        return res.status(400).json({ status: "Error 400", message: error.message });
+    }
+}
+
+const deleteBookById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedBook = await deleteBookByIdService(id)
+        logger.info(`Libro eliminado: ${deletedBook._id}`)
+        return res.status(200).json({ status: "success 200", message: "Libro eliminado", data: deletedBook })
+    } catch (error) {
+        logger.error("Error al eliminar usuario", error)
+        return res.status(400).json({ status: "error 400", message: error.message })
+    }
+}
+
+
 module.exports = {
     createBook,
-    getAllBooks
+    getAllBooks,
+    getBookById,
+    patchBookById,
+    deleteBookById  
 }
