@@ -34,7 +34,7 @@ const editByIdBookRepository = async (id, title, author, category, genre, descri
 }
 
 const deleteBookByIdRepository = async (id) => {
-    return await User.findByIdAndDelete(id)
+    return await Book.findByIdAndDelete(id)
 }
 
 
