@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose')
+const User = require('./user')
 
 const bookSchema = new Schema(
     {
@@ -39,6 +40,17 @@ const bookSchema = new Schema(
     }
 
 )
+
+// cada vez que se elimine un libro, se actualizara el array de libros de los usuarios
+bookSchema.post("findOneAndDelete", async (book) => {
+  console.log(book);
+  if (book) {
+    await User.updateMany(
+      { books: book._id },
+      { $pull: { books: book._id } }
+    );
+  }
+});
 
 const Book = model('Book', bookSchema)
 
